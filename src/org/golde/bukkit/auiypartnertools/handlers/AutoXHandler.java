@@ -1,13 +1,47 @@
 package org.golde.bukkit.auiypartnertools.handlers;
 
+import java.util.HashMap;
+
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.golde.bukkit.auiypartnertools.CustomItem;
 
-public class AutoHandlerBase implements Listener {
+public class AutoXHandler implements Listener {
 
+	private HashMap<Location, Material> blocksToPress = new HashMap<Location, Material>();
+	
+	
+	@EventHandler
+	public void blockPlaceEvent(BlockPlaceEvent e) {
+		if(CustomItem.isEqual(e.getItemInHand(), CustomItem.AUTO_3X3)) {
+			breakBlockWithNoDrops(e.getBlockPlaced());
+			buildCage(e.getBlockPlaced().getLocation(), 7, 3, true, CustomItem.AutoXxX.getMaterialToPlace(e.getItemInHand()));
+		}
+		else if(CustomItem.isEqual(e.getItemInHand(), CustomItem.AUTO_1X1)) {
+			blocksToPress.put(e.getBlockPlaced().getLocation(), CustomItem.AutoXxX.getMaterialToPlace(e.getItemInHand()));
+		}
+	}
+
+	@EventHandler
+	public void onPresurePlateStep(PlayerInteractEvent e) {
+		if(e.getAction().equals(Action.PHYSICAL)){
+			if(e.getClickedBlock().getType() == Material.GOLD_PLATE){
+				if(blocksToPress.containsKey(e.getClickedBlock().getLocation())) {
+					breakBlockWithNoDrops(e.getClickedBlock());
+					buildCage(e.getClickedBlock().getLocation(), 3, 2, true, blocksToPress.get(e.getClickedBlock().getLocation()));
+				}
+				
+			}
+		}
+	}
+	
 	protected final void buildCage(Location entLoc, int sideLength, int height, boolean roof, Material mat) {
 
 		// Let's make sure our preconditions were met.
@@ -48,4 +82,5 @@ public class AutoHandlerBase implements Listener {
 		block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getTypeId());
 		block.setType(Material.AIR);
 	}
+	
 }

@@ -18,7 +18,7 @@ public class HomingBowHandler implements Listener {
 	@EventHandler
 	public void eventArrowFired(final EntityShootBowEvent e) {
 		
-		if(!CustomItem.isEqual(e.getBow(), CustomItem.BETA_HOMING_BOW)){
+		if(!CustomItem.isEqual(e.getBow(), CustomItem.HOMING_BOW)){
 			return;
 		}
 		

@@ -5,6 +5,6 @@ author: Eric Golde
 description: A custom partner tools plugin for JungleHCF
 website: http://eric.golde.org/
 commands:
-   partneritem:
+   pitems:
       description: Stap your cheatin
-      usage: /partneritem <item>
+      usage: /pitems <item>

@@ -43,7 +43,7 @@ public class DecoyPerlHandler implements Listener {
             }
         }
         
-        if(!CustomItem.isEqual(event.getItem(), CustomItem.DECOIL_PERL)) {
+        if(!CustomItem.isEqual(event.getItem(), CustomItem.DECOY_PEARL)) {
         	return;
         }
       
@@ -73,7 +73,7 @@ public class DecoyPerlHandler implements Listener {
 			if(e.getEntity().getShooter() instanceof Player) {
 				final Player shooter = (Player)e.getEntity().getShooter();
 				ItemStack inHand = shooter.getItemInHand();
-				if(CustomItem.isEqual(inHand, CustomItem.DECOIL_PERL)) {
+				if(CustomItem.isEqual(inHand, CustomItem.DECOY_PEARL)) {
 					fakeEnderPerls.add(e.getEntity().getUniqueId());
 					new BukkitRunnable() {
 
