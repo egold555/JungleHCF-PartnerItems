@@ -1,0 +1,10 @@
+name: PartnerTools
+main: org.golde.bukkit.auiypartnertools.Main
+version: 1.1
+author: Eric Golde
+description: A custom partner tools plugin for JungleHCF
+website: http://eric.golde.org/
+commands:
+   partneritem:
+      description: Stap your cheatin
+      usage: /partneritem <item>
