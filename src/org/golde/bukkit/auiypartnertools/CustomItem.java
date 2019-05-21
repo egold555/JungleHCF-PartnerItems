@@ -85,7 +85,8 @@ public class CustomItem {
 			ItemStack clone = this.is.clone();
 			clone.setAmount(amount);
 			ItemMeta im = clone.getItemMeta();
-			im.setLore(Arrays.asList(new String[] {ChatColor.GRAY + "Block: " + ChatColor.GOLD + place.name()}));
+			String oldLore = im.getLore().get(0);
+			im.setLore(Arrays.asList(new String[] {ChatColor.GRAY + "Block: " + ChatColor.GOLD + place.name(), oldLore}));
 			clone.setItemMeta(im);
 			return clone;
 		}
