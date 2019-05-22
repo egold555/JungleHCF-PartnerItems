@@ -1,8 +1,11 @@
 # JungleHCF-PartnerItems
 JungleHCF custom plugin I created requested by Auiy.
 
+## What does this do?
+Adds some new items to enhance the PVP experience.
+
 ## Releases 
-Because this is a custom plugin, I am not releasing compiled jars of it. But, you can compile it your self. The only reason this is open-sourced is to show developers how I did certian things, in hope they can learn from what I made. I can't stop you from skidding, but if your going to copy this code, please at least try to learn what it does. 
+Because this is a custom plugin, I am not releasing compiled jars of it. But, you can compile it your self. The only reason this is open-sourced is to show developers how I did certain things, in hope they can learn from what I made. I can't stop you from skidding, but if your going to copy this code, please at least try to learn what it does. 
 
 ## Dependencies
 **This project was compiled with aSpigot.** 
