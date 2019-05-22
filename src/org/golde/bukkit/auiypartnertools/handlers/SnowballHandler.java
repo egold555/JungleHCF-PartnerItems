@@ -23,7 +23,7 @@ import org.golde.bukkit.auiypartnertools.Main;
 public class SnowballHandler implements Listener {
 
 	private List<UUID> fakeSnowballs = new ArrayList<UUID>();
-	
+
 	@EventHandler
 	public void pojectileThrowEvent(final ProjectileLaunchEvent e) {
 		if(e.getEntityType() == EntityType.SNOWBALL) {
@@ -36,7 +36,7 @@ public class SnowballHandler implements Listener {
 			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onHit(ProjectileHitEvent e) {
 		if(e.getEntityType() == EntityType.SNOWBALL) {
@@ -49,28 +49,34 @@ public class SnowballHandler implements Listener {
 			}
 		}
 	}
-	
+
 	private void doSwap(Player thrower, Player hit) {
 		final Location throwerLoc = thrower.getLocation();
 		final Location hitLoc = hit.getLocation();
-		final World world = throwerLoc.getWorld();
-		
-		thrower.teleport(hitLoc,  TeleportCause.PLUGIN);
-		hit.teleport(throwerLoc,  TeleportCause.PLUGIN);
-		
-		
-		world.playSound(hitLoc, Sound.PORTAL_TRAVEL, 0.2f, 1);
-		world.playSound(throwerLoc, Sound.PORTAL_TRAVEL, 0.2f, 1);
-		
-		for(int i = 0; i < 3; i++) {
-			world.playEffect(hitLoc.add(0, i, 0), Effect.ENDER_SIGNAL, 0);
-			world.playEffect(throwerLoc.add(0, i, 0), Effect.ENDER_SIGNAL, 0);
+
+		if(throwerLoc.distanceSquared(hitLoc) <= 49) {//7*7 -- Square root method is resource intensive
+
+			final World world = throwerLoc.getWorld();
+
+			thrower.teleport(hitLoc,  TeleportCause.PLUGIN);
+			hit.teleport(throwerLoc,  TeleportCause.PLUGIN);
+
+
+			world.playSound(hitLoc, Sound.PORTAL_TRAVEL, 0.2f, 1);
+			world.playSound(throwerLoc, Sound.PORTAL_TRAVEL, 0.2f, 1);
+
+			for(int i = 0; i < 3; i++) {
+				world.playEffect(hitLoc.add(0, i, 0), Effect.ENDER_SIGNAL, 0);
+				world.playEffect(throwerLoc.add(0, i, 0), Effect.ENDER_SIGNAL, 0);
+			}
+
+			thrower.sendMessage(Main.getInstance().color("&bYou and &e" + hit.getName() + " &bhave swapped places!"));
+			hit.sendMessage(Main.getInstance().color("&bYou and &e" + thrower.getName() + " &bhave swapped places!"));
 		}
-		
-		thrower.sendMessage(Main.getInstance().color("&bYou and &e" + hit.getName() + " &bhave swapped places!"));
-		hit.sendMessage(Main.getInstance().color("&bYou and &e" + thrower.getName() + " &bhave swapped places!"));
-		
-		
+		else {
+			thrower.sendMessage(Main.getInstance().color("&e" + hit.getName() + " &cmust be in a &7&l7 &cblock radius for you to swap places!"));
+		}
+
 	}
-	
+
 }
