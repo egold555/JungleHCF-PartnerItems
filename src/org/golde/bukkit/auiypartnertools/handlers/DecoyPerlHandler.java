@@ -27,7 +27,8 @@ import org.golde.bukkit.auiypartnertools.Main;
 public class DecoyPerlHandler implements Listener {
 
 	private List<UUID> fakeEnderPerls = new ArrayList<UUID>();
-	private final Map<String, Long> lastThrow = new HashMap<String, Long>();
+	private final Map<String, Long> lastThrowDecoyPearl = new HashMap<String, Long>();
+	private final Map<String, Long> lastThrowEnderPearl = new HashMap<String, Long>();
     private static final Set<Material> interactables = new HashSet<Material>(Arrays.asList(Material.ANVIL, Material.COMMAND, Material.BED, Material.BEACON, Material.BED_BLOCK, Material.BREWING_STAND, Material.BURNING_FURNACE, Material.CAKE_BLOCK, Material.CHEST, Material.DIODE, Material.DIODE_BLOCK_OFF, Material.DIODE_BLOCK_ON, Material.DISPENSER, Material.DROPPER, Material.ENCHANTMENT_TABLE, Material.ENDER_CHEST, Material.FENCE_GATE, Material.FENCE_GATE, Material.FURNACE, Material.HOPPER, Material.IRON_DOOR, Material.IRON_DOOR_BLOCK, Material.ITEM_FRAME, Material.LEVER, Material.REDSTONE_COMPARATOR, Material.REDSTONE_COMPARATOR_OFF, Material.REDSTONE_COMPARATOR_ON, Material.STONE_BUTTON, Material.TRAP_DOOR, Material.TRAPPED_CHEST, Material.WOODEN_DOOR, Material.WOOD_BUTTON, Material.WOOD_DOOR, Material.WORKBENCH));
 	
     
@@ -43,14 +44,20 @@ public class DecoyPerlHandler implements Listener {
             }
         }
         
+        final Player player = event.getPlayer();
+        final Long now = System.currentTimeMillis();
+        
         if(!CustomItem.isEqual(event.getItem(), CustomItem.DECOY_PEARL)) {
+        	if(event.getItem() != null && event.getItem().getType() == Material.ENDER_PEARL) {
+            	this.lastThrowEnderPearl.put(player.getName(), now);
+            	return;
+            }
         	return;
         }
       
-        final Player player = event.getPlayer();
-        final Long now = System.currentTimeMillis();
+        
         if (this.validthrow(player, now)) {
-        	this.lastThrow.put(player.getName(), now);
+        	this.lastThrowDecoyPearl.put(player.getName(), now);
         }
         else {
             event.setCancelled(true);
@@ -59,8 +66,9 @@ public class DecoyPerlHandler implements Listener {
     }
     
     private boolean validthrow(final Player player, final long throwTime) {
-        final Long lastPlayerPearl = this.lastThrow.get(player.getName());
-        if (lastPlayerPearl == null || throwTime - lastPlayerPearl >= 3020) {
+        final Long lastPlayerPearlFake = this.lastThrowDecoyPearl.get(player.getName());
+        final Long lastPlayerPearlReal = this.lastThrowEnderPearl.get(player.getName());
+        if ((lastPlayerPearlFake == null || throwTime - lastPlayerPearlFake >= 3020) && (lastPlayerPearlReal == null || throwTime - lastPlayerPearlReal >= 16020)) {
             return true;
         }
         return false;
@@ -69,11 +77,21 @@ public class DecoyPerlHandler implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void pojectileThrowEvent(final ProjectileLaunchEvent e) {
+		
 		if(e.getEntityType() == EntityType.ENDER_PEARL) {
 			if(e.getEntity().getShooter() instanceof Player) {
 				final Player shooter = (Player)e.getEntity().getShooter();
 				ItemStack inHand = shooter.getItemInHand();
 				if(CustomItem.isEqual(inHand, CustomItem.DECOY_PEARL)) {
+					
+					
+//					if(!validthrow(shooter, System.currentTimeMillis())) {
+//						e.setCancelled(true);
+//						shooter.getItemInHand().setAmount(shooter.getItemInHand().getAmount() + 1);
+//						shooter.updateInventory();
+//						return;
+//					}
+					
 					fakeEnderPerls.add(e.getEntity().getUniqueId());
 					new BukkitRunnable() {
 
