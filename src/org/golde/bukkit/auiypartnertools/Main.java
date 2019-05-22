@@ -9,6 +9,7 @@ import org.golde.bukkit.auiypartnertools.handlers.AutoXHandler;
 import org.golde.bukkit.auiypartnertools.handlers.DecoyPerlHandler;
 import org.golde.bukkit.auiypartnertools.handlers.GrapplingHookHandler;
 import org.golde.bukkit.auiypartnertools.handlers.HomingBowHandler;
+import org.golde.bukkit.auiypartnertools.handlers.SnowballHandler;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -23,6 +24,7 @@ public class Main extends JavaPlugin implements Listener{
 		Bukkit.getPluginManager().registerEvents(new AutoXHandler(), this);
 
 		Bukkit.getPluginManager().registerEvents(new HomingBowHandler(), this);
+		Bukkit.getPluginManager().registerEvents(new SnowballHandler(), this);
 		
 		//getCommand("piconsole").setExecutor(new CmdPIConsole());
 		getCommand("pitems").setExecutor(CmdPitems.getInstance());

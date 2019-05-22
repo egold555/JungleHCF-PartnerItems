@@ -66,6 +66,9 @@ public class CmdPitems implements CommandExecutor, TabCompleter {
 			else if(item.equalsIgnoreCase("HOMING_BOW")) {
 				p.getInventory().addItem(CustomItem.HOMING_BOW.getItemStack(amount));
 			}
+			else if(item.equalsIgnoreCase("SWAP_SNOWBALL")) {
+				p.getInventory().addItem(CustomItem.SWAP_SNOWBALL.getItemStack(amount));
+			}
 			
 			//No console messages
 			if(sender instanceof Player ) {
