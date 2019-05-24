@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -18,8 +19,14 @@ public class AutoXHandler implements Listener {
 	private HashMap<Location, Material> blocksToPress = new HashMap<Location, Material>();
 	
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void blockPlaceEvent(BlockPlaceEvent e) {
+		if(!e.canBuild()) {
+			return;
+		}
+		if(e.isCancelled()) {
+			return;
+		}
 		if(CustomItem.isEqual(e.getItemInHand(), CustomItem.AUTO_3X3)) {
 			breakBlockWithNoDrops(e.getBlockPlaced());
 			buildCage(e.getBlockPlaced().getLocation(), 7, 3, true, CustomItem.AutoXxX.getMaterialToPlace(e.getItemInHand()));

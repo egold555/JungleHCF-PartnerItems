@@ -84,14 +84,6 @@ public class DecoyPerlHandler implements Listener {
 				ItemStack inHand = shooter.getItemInHand();
 				if(CustomItem.isEqual(inHand, CustomItem.DECOY_PEARL)) {
 					
-					
-//					if(!validthrow(shooter, System.currentTimeMillis())) {
-//						e.setCancelled(true);
-//						shooter.getItemInHand().setAmount(shooter.getItemInHand().getAmount() + 1);
-//						shooter.updateInventory();
-//						return;
-//					}
-					
 					fakeEnderPerls.add(e.getEntity().getUniqueId());
 					new BukkitRunnable() {
 
