@@ -17,7 +17,7 @@ public class FireballHandler implements Listener {
 			return;
 		}
 
-		if(!CustomItem.isEqual(e.getItem(), CustomItem.FIREBAll)) {
+		if(!CustomItem.isEqual(e.getItem(), CustomItem.FIREBALL)) {
 			return;
 		}
 		
@@ -27,7 +27,7 @@ public class FireballHandler implements Listener {
 		
 		if(e.getPlayer().getGameMode() != GameMode.CREATIVE) {
 			final int amount = e.getPlayer().getInventory().getItemInHand().getAmount() - 1;
-			final ItemStack charge = CustomItem.FIREBAll.getItemStack(amount);
+			final ItemStack charge = CustomItem.FIREBALL.getItemStack(amount);
 			e.getPlayer().getInventory().setItemInHand(charge);
 		}
 		

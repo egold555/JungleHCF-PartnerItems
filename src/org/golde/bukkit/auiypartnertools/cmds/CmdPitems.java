@@ -69,8 +69,8 @@ public class CmdPitems implements CommandExecutor, TabCompleter {
 			else if(item.equalsIgnoreCase("SWAP_SNOWBALL")) {
 				p.getInventory().addItem(CustomItem.SWAP_SNOWBALL.getItemStack(amount));
 			}
-			else if(item.equalsIgnoreCase("FIREBAll")) {
-				p.getInventory().addItem(CustomItem.FIREBAll.getItemStack(amount));
+			else if(item.equalsIgnoreCase("FIREBALL")) {
+				p.getInventory().addItem(CustomItem.FIREBALL.getItemStack(amount));
 			}
 			
 			//No console messages

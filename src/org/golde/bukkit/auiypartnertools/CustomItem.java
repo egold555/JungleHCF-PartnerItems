@@ -13,7 +13,7 @@ public class CustomItem {
 	public static final List<String> LIST_OF_ITEMS;
 	
 	static {
-		String[] items = new String[]{"DECOY_PEARL", "GRAPPLING_HOOK", "HOMING_BOW", "AUTO_1X1", "AUTO_3X3", "SWAP_SNOWBALL", "FIREBAll"};
+		String[] items = new String[]{"DECOY_PEARL", "GRAPPLING_HOOK", "HOMING_BOW", "AUTO_1X1", "AUTO_3X3", "SWAP_SNOWBALL", "FIREBALL"};
 		Arrays.sort(items);
 		LIST_OF_ITEMS = Arrays.asList(items);
 	}
@@ -30,7 +30,7 @@ public class CustomItem {
 	public static final AutoXxX AUTO_3X3 = new AutoXxX(Material.SAPLING, "&bAutoBox &7(3 x 3 - 2 High)");
 
 	public static final CustomItem SWAP_SNOWBALL = new CustomItem(Material.SNOW_BALL, "&bSwapball", PARTNER_BETA);
-	public static final CustomItem FIREBAll = new CustomItem(Material.FIREBALL, "&bFireball", PARTNER_BETA);
+	public static final CustomItem FIREBALL = new CustomItem(Material.FIREBALL, "&bFireball", PARTNER_BETA);
 	
 	
 	protected final ItemStack is;
