@@ -147,7 +147,7 @@ public class CmdPitems implements CommandExecutor, TabCompleter {
 			return Material.STONE;
 		}
 		try {
-			return Material.valueOf(in);
+			return Material.valueOf(in.toUpperCase());
 		}
 		catch(Exception e) {
 			return Material.STONE;

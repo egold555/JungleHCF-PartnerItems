@@ -102,7 +102,7 @@ public class AutoXHandler implements Listener {
 			public void run() {
 				blockPlacerBreaker.breakBlocks();
 			}
-		}.runTaskLater(Main.getInstance(), 20*5);
+		}.runTaskLater(Main.getInstance(), 20*30);
 	}
 
 	@SuppressWarnings("deprecation")
