@@ -1,6 +1,9 @@
 package org.golde.bukkit.auiypartnertools.handlers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -12,13 +15,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.golde.bukkit.auiypartnertools.CustomItem;
+import org.golde.bukkit.auiypartnertools.Main;
 
 public class AutoXHandler implements Listener {
 
 	private HashMap<Location, Material> blocksToPress = new HashMap<Location, Material>();
-	
-	
+
+
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void blockPlaceEvent(BlockPlaceEvent e) {
 		if(!e.canBuild()) {
@@ -44,11 +49,11 @@ public class AutoXHandler implements Listener {
 					breakBlockWithNoDrops(e.getClickedBlock());
 					buildCage(e.getClickedBlock().getLocation(), 3, 2, true, blocksToPress.get(e.getClickedBlock().getLocation()));
 				}
-				
+
 			}
 		}
 	}
-	
+
 	protected final void buildCage(Location entLoc, int sideLength, int height, boolean roof, Material mat) {
 
 		// Let's make sure our preconditions were met.
@@ -67,27 +72,116 @@ public class AutoXHandler implements Listener {
 		int minZ = Math.min(corner1.getBlockZ(), corner2.getBlockZ());
 		int maxZ = Math.max(corner1.getBlockZ(), corner2.getBlockZ());
 
+		final BlockPlacerBreaker blockPlacerBreaker = new BlockPlacerBreaker();
+		
 		for(int x = minX; x <= maxX; x++) {
 			for(int y = 0; y < height; y++) {
 				for(int z = minZ; z <= maxZ; z++) {
 					if((x == minX || x == maxX) || (z == minZ || z == maxZ)) {
 						Block b = corner1.getWorld().getBlockAt(x, entLoc.getBlockY() + y, z);
-						b.setType(mat);
+						if(b.getType() == Material.AIR) {
+							//b.setType(mat);
+							blockPlacerBreaker.addBlock(b, mat);
+						}
 					}
 
 					if(y == height - 1 && roof) {
 						Block b = corner1.getWorld().getBlockAt(x, entLoc.getBlockY() + y + 1, z);
-						b.setType(mat);
+						if(b.getType() == Material.AIR) {
+							//b.setType(mat);
+							blockPlacerBreaker.addBlock(b, mat);
+						}
 					}
 				}
 			}
 		}
+		blockPlacerBreaker.placeBlocks();
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				blockPlacerBreaker.breakBlocks();
+			}
+		}.runTaskLater(Main.getInstance(), 20*5);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	protected final void breakBlockWithNoDrops(Block block) {
 		block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getTypeId());
 		block.setType(Material.AIR);
 	}
 	
+	private class BlockPlacerBreaker {
+		
+		private class BlockMaterial {
+
+			public final Material material;
+			public final Block block;
+			
+			private BlockMaterial(Block block, Material material) {
+				this.block = block;
+				this.material = material;
+			}
+			
+		}
+		
+		private int placedIndex = 0;
+		private int breakIndex = 0;
+		
+		List<BlockMaterial> addedBlocks = new ArrayList<BlockMaterial>();
+		
+		public void addBlock(Block block, Material mat) {
+			addedBlocks.add(new BlockMaterial(block, mat));
+		}
+		
+		public void placeBlocks() {
+			Collections.shuffle(addedBlocks);
+			placedIndex = 0;
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					
+					for(int add = 0; add < 9; add++) {
+						if(placedIndex > addedBlocks.size()-1) {
+							this.cancel();
+							return;
+						}
+						
+						BlockMaterial bm = addedBlocks.get(placedIndex);
+						bm.block.setType(bm.material);
+						placedIndex++;
+					}
+					
+					
+				}
+				
+			}.runTaskTimer(Main.getInstance(), 0, 1);
+		}
+		
+		public void breakBlocks() {
+			breakIndex = 0;
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					
+					for(int add = 0; add < 9; add++) {
+						if(breakIndex > addedBlocks.size()-1) {
+							this.cancel();
+							return;
+						}
+						
+						BlockMaterial bm = addedBlocks.get(breakIndex);
+						breakBlockWithNoDrops(bm.block);
+						breakIndex++;
+					}
+					
+				}
+				
+			}.runTaskTimer(Main.getInstance(), 0, 1);
+		}
+		
+	}
+
 }

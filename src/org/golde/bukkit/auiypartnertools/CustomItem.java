@@ -13,7 +13,7 @@ public class CustomItem {
 	public static final List<String> LIST_OF_ITEMS;
 	
 	static {
-		String[] items = new String[]{"DECOY_PEARL", "GRAPPLING_HOOK", "HOMING_BOW", "AUTO_1X1", "AUTO_3X3", "SWAP_SNOWBALL", "FIREBALL"};
+		String[] items = new String[]{"DECOY_PEARL", "GRAPPLING_HOOK", "HOMING_BOW", "AUTO_1X1", "AUTO_3X3", "SWAP_SNOWBALL"/*, "FIREBALL"*/};
 		Arrays.sort(items);
 		LIST_OF_ITEMS = Arrays.asList(items);
 	}

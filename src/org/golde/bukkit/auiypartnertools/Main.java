@@ -25,9 +25,9 @@ public class Main extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new HomingBowHandler(), this);
 		
 		Bukkit.getPluginManager().registerEvents(new SnowballHandler(), this);
-		Bukkit.getPluginManager().registerEvents(new FireballHandler(), this);
+		//Bukkit.getPluginManager().registerEvents(new FireballHandler(), this);
 		
-		//getCommand("piconsole").setExecutor(new CmdPIConsole());
+
 		getCommand("pitems").setExecutor(CmdPitems.getInstance());
 		getCommand("pitems").setTabCompleter(CmdPitems.getInstance());
 
